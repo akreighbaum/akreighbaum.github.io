@@ -1,12 +1,3 @@
-//Practically all this code comes from https://github.com/alangrafu/radar-chart-d3
-//I only made some additions and aesthetic adjustments to make the chart look better 
-//(of course, that is only my point of view)
-//Such as a better placement of the titles at each line end, 
-//adding numbers that reflect what each circular level stands for
-//Not placing the last level and slight differences in color
-//For a bit of extra information check the blog about it:
-//http://nbremer.blogspot.nl/2013/09/making-d3-radar-chart-look-bit-better.html
-
 var RadarChart = {
   draw: function(id, d, options){
   var cfg = {
@@ -111,7 +102,7 @@ var RadarChart = {
 		.attr("text-anchor", "middle")
 		.attr("dy", "1.5em")
 		.attr("transform", function(d, i){return "translate(0, -10)"})
-		.attr("x", function(d, i){return cfg.w/2*(1-cfg.factorLegend*Math.sin(i*cfg.radians/total))-60*Math.sin(i*cfg.radians/total);})
+		.attr("x", function(d, i){return cfg.w/2*(1-cfg.factorLegend*Math.sin(i*cfg.radians/total))-40*Math.sin(i*cfg.radians/total);})
 		.attr("y", function(d, i){return cfg.h/2*(1-Math.cos(i*cfg.radians/total))-20*Math.cos(i*cfg.radians/total);});
 
  
@@ -228,58 +219,66 @@ var RadarChart = {
 var w = 500,
 	h = 500;
 
-var colorscale = d3.scale.category10();
+var color = d3.scale.category10();
+
+//var color = d3.scale.ordinal()
+	//.domain(["Monta Ellis", "Rajon Rondo"])
+	//.range(["#FF0000", "#009933"]); 
 
 //Legend titles
 var LegendOptions = ['Monta Ellis','Rajon Rondo'];
 
+
 //Data
 var d = [
 		  [
-			{axis:"Rajon Rondo",value:0.59},
-			{axis:"Dirk Nowitzki",value:0.56},
-			{axis:"Devin Harris",value:0.42},
-			{axis:"Chandler Parsons",value:0.34},
-			{axis:"Tyson Chandler",value:0.48},
-			{axis:"Jose Juan Barea",value:0.14},
-			{axis:"Richard Jefferson",value:0.11},
-			{axis:"Charlie Villanueva",value:0.05},
-			{axis:"Al-Farouq Aminu",value:0.07},
-			{axis:"Greg Smith",value:0.12},
-			{axis:"Raymond Felton",value:0.27},
-			{axis:"Amar'e Stoudemire",value:0.03},
-			{axis:"Bernard James",value:0.12},
-			{axis:"Dwight Powell",value:0.4}
+			{axis:"Dirk Nowitzki",value:.187},
+			{axis:"Monta Ellis",value: 0},
+			{axis:"Devin Harris",value:.134},
+			{axis:"Chandler Parsons",value:.125},
+			{axis:"Tyson Chandler",value:.04},
+			{axis:"Jose Juan Barea",value:.073},
+			{axis:"Richard Jefferson",value:.05},
+			{axis:"Charlie Villanueva",value:.046},
+			{axis:"Al-Farouq Aminu",value:.031},
+			{axis:"Greg Smith",value:.009},
+			{axis:"Raymond Felton",value:0.007},
+			{axis:"Amar'e Stoudemire",value:0.006},
+			{axis:"Bernard James",value:0.004},
+			{axis:"Dwight Powell",value:0.003},
+			{axis:"Rajon Rondo",value:.226}
+
 		  ],[
-			{axis:"Monta Ellis",value:0.59},
-			{axis:"Dirk Nowitzki",value:0.56},
-			{axis:"Devin Harris",value:0.42},
-			{axis:"Chandler Parsons",value:0.34},
-			{axis:"Tyson Chandler",value:0.48},
-			{axis:"Jose Juan Barea",value:0.14},
-			{axis:"Richard Jefferson",value:0.11},
-			{axis:"Charlie Villanueva",value:0.05},
-			{axis:"Al-Farouq Aminu",value:0.07},
-			{axis:"Greg Smith",value:0.12},
-			{axis:"Raymond Felton",value:0.27},
-			{axis:"Amar'e Stoudemire",value:0.03},
-			{axis:"Bernard James",value:0.12},
-			{axis:"Dwight Powell",value:0.4}
-		  ]
+			{axis:"Dirk Nowitzki",value:.195},
+			{axis:"Monta Ellis",value: .316},
+			{axis:"Devin Harris",value:.042},
+			{axis:"Chandler Parsons",value:.131},
+			{axis:"Tyson Chandler",value:.073},
+			{axis:"Jose Juan Barea",value:.052},
+			{axis:"Richard Jefferson",value:.086},
+			{axis:"Charlie Villanueva",value:.034},
+			{axis:"Al-Farouq Aminu",value:.027},
+			{axis:"Greg Smith",value:.015},
+			{axis:"Raymond Felton",value:0},
+			{axis:"Amar'e Stoudemire",value:.013},
+			{axis:"Bernard James",value:.003},
+			{axis:"Dwight Powell",value:.012},
+			{axis:"Rajon Rondo",value:0}
+			]
 		];
 
 //Options for the Radar chart, other than default
 var mycfg = {
   w: w,
   h: h,
-  maxValue: 0.6,
-  levels: 6,
+  maxValue: 0.25,
+  levels: 3,
   ExtraWidthX: 300
 }
 
 //Call function to draw the Radar chart
 //Will expect that data is in %'s
-RadarChart.draw("#chart", d, mycfg);
+RadarChart.draw(".chart", d, mycfg);
 
 ////////////////////////////////////////////
 /////////// Initiate legend ////////////////
@@ -299,7 +298,7 @@ var text = svg.append("text")
 	.attr("y", 10)
 	.attr("font-size", "12px")
 	.attr("fill", "#404040")
-	.text("What % of owners use a specific service in a week");
+	.text("Which teammates receive the most passes");
 		
 //Initiate Legend	
 var legend = svg.append("g")
@@ -317,7 +316,7 @@ var legend = svg.append("g")
 	  .attr("y", function(d, i){ return i * 20;})
 	  .attr("width", 10)
 	  .attr("height", 10)
-	  .style("fill", function(d, i){ return colorscale(i);})
+	  .style("fill", function(d, i){ return color(i);})
 	  ;
 	//Create text next to squares
 	legend.selectAll('text')
