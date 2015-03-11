@@ -16,6 +16,8 @@ var RadarChart = {
 	 ExtraWidthX: 100,
 	 ExtraWidthY: 100,
 	 color: d3.scale.category10()
+
+
 	};
 	
 	if('undefined' !== typeof options){
@@ -24,7 +26,9 @@ var RadarChart = {
 		  cfg[i] = options[i];
 		}
 	  }
-	}
+	};
+
+
 	cfg.maxValue = Math.max(cfg.maxValue, d3.max(d, function(i){return d3.max(i.map(function(o){return o.value;}))}));
 	var allAxis = (d[0].map(function(i, j){return i.axis}));
 	var total = allAxis.length;
@@ -222,8 +226,8 @@ var w = 500,
 var color = d3.scale.category10();
 
 //var color = d3.scale.ordinal()
-	//.domain(["Monta Ellis", "Rajon Rondo"])
-	//.range(["#FF0000", "#009933"]); 
+//	.domain(["Monta Ellis", "Rajon Rondo"])
+//	.range(["#FF0000", "#BBDEFB"]); 
 
 //Legend titles
 var LegendOptions = ['Monta Ellis','Rajon Rondo'];
@@ -231,6 +235,9 @@ var LegendOptions = ['Monta Ellis','Rajon Rondo'];
 
 //Data
 var d = [
+		//  {
+		//  className: 'Monta Ellis', //optional 
+		//  axes:
 		  [
 			{axis:"Dirk Nowitzki",value:.187},
 			{axis:"Monta Ellis",value: 0},
@@ -247,8 +254,14 @@ var d = [
 			{axis:"Bernard James",value:0.004},
 			{axis:"Dwight Powell",value:0.003},
 			{axis:"Rajon Rondo",value:.226}
+			]
 
-		  ],[
+		//  }
+		  ,
+		//  {
+		//  	className: 'Rajon Rondo', //optional
+		//  	axes: 
+		  	[
 			{axis:"Dirk Nowitzki",value:.195},
 			{axis:"Monta Ellis",value: .316},
 			{axis:"Devin Harris",value:.042},
@@ -265,6 +278,7 @@ var d = [
 			{axis:"Dwight Powell",value:.012},
 			{axis:"Rajon Rondo",value:0}
 			]
+		//	}
 		];
 
 //Options for the Radar chart, other than default
